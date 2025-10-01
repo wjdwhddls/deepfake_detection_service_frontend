@@ -1,70 +1,52 @@
-# Getting Started with Create React App
+# DeepVoice Shield — Landing Page (Full‑stack)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+온디바이스 딥보이스 탐지 앱을 소개하는 **반응형 랜딩 페이지(React + Vite)**와
+이메일 구독을 저장하는 **백엔드(Express + SQLite)**가 포함되어 있습니다.
 
-## Available Scripts
+## 구성
+```
+deepvoice-landing/
+  frontend/  # React + Vite
+  backend/   # Node.js Express + SQLite
+```
 
-In the project directory, you can run:
+## 빠른 시작
 
-### `npm start`
+### 1) 백엔드
+```bash
+cd backend
+npm i
+npm run start   # http://localhost:5050
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 2) 프론트엔드 (개발 모드)
+```bash
+cd ../frontend
+npm i
+# .env 파일에 API 주소를 지정할 수 있습니다. (기본: http://localhost:5050)
+# 예) echo "VITE_API_BASE=http://localhost:5050" > .env
+npm run dev     # http://localhost:5173
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+프론트엔드에서 이메일을 등록하면 백엔드의 `backend/data.db`에 저장됩니다.
 
-### `npm test`
+### 3) 프로덕션으로 함께 서빙(선택)
+```bash
+# 프론트 빌드
+cd frontend
+npm run build    # dist/ 생성
+# dist/ 폴더가 backend에서 정적 서빙됩니다.
+cd ../backend
+npm run start    # http://localhost:5050 에서 SPA와 API 동시 제공
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 자주 바꿀 곳
+- `frontend/src/App.jsx` 상단의 `PLAYSTORE_URL`, `GITHUB_RELEASE_URL`를 실제 링크로 교체
+- `/frontend/public/mockup.png`을 앱 스크린샷으로 교체 (파일명 동일 유지 권장)
 
-### `npm run build`
+## 배포 팁
+- **Vercel(프론트)** + **Render / Railway(백엔드)** 조합으로 쉽게 배포할 수 있습니다.
+- SQLite를 계속 쓰려면 백엔드의 영구 스토리지 옵션을 활성화하세요. (또는 Supabase/Postgres로 교체)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 라이선스
+MIT (사실상 템플릿 수준)

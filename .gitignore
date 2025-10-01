@@ -1,23 +1,46 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
+# 공통
+node_modules/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+
+# 환경파일/비밀키/로컬DB
+.env
+.env.*
+!.env.example
+*.keystore
+*.pem
+data.db
+
+# 빌드 산출물
+dist/
+build/
+coverage/
+.tmp/
+
+# macOS / IDE
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# React Native - Android
+android/.gradle/
+android/.idea/
+android/local.properties
+android/app/build/
+android/build/
+*.iml
+
+# React Native - iOS
+ios/Pods/
+ios/build/
+ios/DerivedData/
+
+# Python (FastAPI 등)
+__pycache__/
+*.pyc
+.venv/
