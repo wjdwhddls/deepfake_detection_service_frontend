@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- 반응형 & 안전영역(iOS), 키보드 등장 시 안전한 리사이즈 -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"
+    />
+
+    <title>DeepVoice Detection — 딥보이스 탐지</title>
+    <meta
+      name="description"
+      content="온디바이스 딥보이스 탐지 앱 — 통화·음성메시지를 실시간으로 분석합니다."
+    />
+    <meta property="og:title" content="DeepVoice Detection — 딥보이스 탐지" />
+    <meta
+      property="og:description"
+      content="온디바이스 딥보이스 탐지, 실시간 통화 보호, 프라이버시 우선."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/mockup.png" />
+
+    <!-- PWA/브라우저 상단 색상(라이트 테마 기준) -->
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- 첫 화면 안정화를 위한 주요 이미지 프리로드 -->
+    <link rel="preload" href="/mockup.png" as="image" />
+
+    <!-- ✅ 크리티컬 CSS: 전역 고정 배경(경계선 재등장 영구 방지) -->
+    <style>
+      html,
+      body,
+      #root {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+      }
+      /* 전역 고정 배경: 섹션 배경이 투명이어도 경계가 생기지 않도록 최초 페인트부터 고정 */
+      html {
+        background: linear-gradient(180deg, #ffffff 0%, #f7fbff 62%, #ffffff 100%);
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        max-width: 100%;
+        overflow-x: clip; /* 100vw 섹션의 서브픽셀 가로 스크롤 방지 */
+        -webkit-text-size-adjust: 100%; /* iOS 폰트 확대 억제 */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
