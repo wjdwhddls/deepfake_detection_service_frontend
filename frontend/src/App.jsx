@@ -11,7 +11,7 @@ const PLAYSTORE_URL = 'https://play.google.com/store/apps/details?id=com.deepvoi
 const GITHUB_RELEASE_URL = 'https://github.com/wjdwhddls/deepfake_detection_service_application/releases'
 const DOWNLOAD_URL = PLAYSTORE_URL || GITHUB_RELEASE_URL
 
-const LOGO_SRC = 'src/assets/logo_DeepVoice.png'
+const LOGO_SRC = 'src/assets/너목보 로고.png'
 
 const Gradient = ({children}) => <span className="grad">{children}</span>
 
