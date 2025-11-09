@@ -468,3 +468,37 @@ body.after-showcase .gate-after-showcase{opacity:1;transform:none;filter:none}
   background:linear-gradient(135deg,var(--g1),var(--g2)); color:#fff; font-weight:800;
 }
 .try2 .panelCard .score{ font-weight:900; color:#111827 }
+
+/* ========== Mobile hardening overrides (추가) ========== */
+/* iOS 주소창 수축/확장에 안전한 높이(dvh) 사용 */
+@supports (height: 100dvh) {
+  .introHero{ min-height: 76dvh; }
+  .stickyWrap{ top: 8dvh; height: 78dvh; }
+}
+
+/* 작은 화면에서 요소들이 넘치지 않도록 폭/간격 클램프 */
+@media (max-width: 480px){
+  .page{ padding: 0 14px 80px; }
+
+  /* 쇼케이스 스테이지와 이퀄라이저 배경의 폭을 화면 폭에 맞춰 조정 */
+  .phoneStage{ width: calc(100vw - 28px); }
+  .eqUnder{ width: min(100vw - 28px, 880px); }
+
+  /* 데모 폰 프레임/결과 카드가 좌우 잘리지 않도록 */
+  .phoneFrame.demo{ width: clamp(300px, 88vw, 360px); }
+  .dv-resultCard{ max-width: 92vw; }
+}
+
+/* 일부 단말에서 100vh 이슈가 있는 브라우저(옛 사파리 등) 대비 */
+@supports not (height: 100dvh) {
+  .introHero{ min-height: 76vh; }
+  .stickyWrap{ top: 6vh; height: 78vh; }
+}
+
+/* 고해상도 단말에서 로고/폰 주변 여백이 과하게 잡히는 것 보정 */
+@media (max-width: 520px){
+  .phoneStage{ --side-gap: clamp(72px, 10vw, 120px); --logo-w: clamp(100px, 22vw, 200px); }
+}
+
+/* 글자 자동 확대로 레이아웃 어긋나는 현상 완화 */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }

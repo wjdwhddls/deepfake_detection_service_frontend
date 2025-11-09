@@ -10,10 +10,10 @@ export const PALETTE = {
 // 🔻 Play Store 주소 제거, 외부 다운로드 링크 사용 안 함
 // const PLAYSTORE_URL = 'https://play.google.com/store/apps/details?id=com.deepvoice';
 const GITHUB_RELEASE_URL = 'https://github.com/wjdwhddls/deepfake_detection_service_application/releases';
-const DOWNLOAD_URL = '';// 비활성화 처리
+const DOWNLOAD_URL = 'https://firebasestorage.googleapis.com/v0/b/deepvoice-df6e5.firebasestorage.app/o/%EB%84%88%EB%AA%A9%EB%B3%B4.apk?alt=media&token=741f0115-634d-49fc-bc59-5e772112fb62';
 
-const LOGO_SRC = './src/assets/너목보로고.png';
-const QR_IMG_SRC = './public/너목보qr.jpeg'; // ✅ 사용자가 제공한 QR 이미지
+const LOGO_SRC = '/logo_nmb.png';
+const QR_IMG_SRC = '/qr_nmb.jpeg'; // ✅ 사용자가 제공한 QR 이미지
 const Gradient = ({children}) => <span className="grad">{children}</span>;
 
 /* ================= 공통: QR 모달 ================= */
@@ -63,8 +63,16 @@ function Nav({ onOpenQR }){
           <a href="#showcase">Product</a>
           <a href="#features">Features</a>
           <a href="#try">Demo</a>
-          {/* 🔻 외부 링크 대신 모달 열기 */}
-          <button className="btnNav" type="button" onClick={handleOpenQR}>Get the app</button>
+
+          {/* 🔗 APK 직접 다운로드 */}
+          <a
+            href={DOWNLOAD_URL}
+            className="btnNav"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Get the app
+          </a>
         </nav>
 
         <button
@@ -79,12 +87,21 @@ function Nav({ onOpenQR }){
       </div>
 
       <div id="mobile-menu" className={`mobileSheet ${open ? 'open' : ''}`} role="dialog" aria-modal="true">
+        {/* 모바일 메뉴 */}
         <nav className="mobileMenu" onClick={close}>
           <a href="#showcase">Product</a>
           <a href="#features">Features</a>
           <a href="#try">Demo</a>
-          {/* 🔻 모바일 메뉴에서도 모달 열기 */}
-          <button className="btnNav wide" type="button" onClick={handleOpenQR}>Get the app</button>
+
+          {/* 🔗 APK 직접 다운로드 (모바일) */}
+          <a
+            href={DOWNLOAD_URL}
+            className="btnNav wide"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Get the app
+          </a>
         </nav>
       </div>
     </header>
