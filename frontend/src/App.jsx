@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import QRCode from 'qrcode';
+// QRCode 제거: 정적 이미지(너목보qr.jpeg) 사용
 import './styles.css';
 
 export const PALETTE = {
@@ -7,15 +7,40 @@ export const PALETTE = {
   white:'#FFFFFF', btnBlue:'#2F84FF'
 };
 
-const PLAYSTORE_URL = 'https://play.google.com/store/apps/details?id=com.deepvoice';
+// 🔻 Play Store 주소 제거, 외부 다운로드 링크 사용 안 함
+// const PLAYSTORE_URL = 'https://play.google.com/store/apps/details?id=com.deepvoice';
 const GITHUB_RELEASE_URL = 'https://github.com/wjdwhddls/deepfake_detection_service_application/releases';
-const DOWNLOAD_URL = PLAYSTORE_URL || GITHUB_RELEASE_URL;
+const DOWNLOAD_URL = '';// 비활성화 처리
 
-const LOGO_SRC = 'src/assets/너목보로고.png';
+const LOGO_SRC = './src/assets/너목보로고.png';
+const QR_IMG_SRC = './public/너목보qr.jpeg'; // ✅ 사용자가 제공한 QR 이미지
 const Gradient = ({children}) => <span className="grad">{children}</span>;
 
+/* ================= 공통: QR 모달 ================= */
+function QRModal({ open, onClose }){
+  useEffect(()=>{
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = open ? 'hidden' : prev || '';
+    return () => { document.body.style.overflow = prev; };
+  }, [open]);
+
+  if(!open) return null;
+  return (
+    <div className="qrModal" role="dialog" aria-modal="true" aria-label="앱 설치 QR">
+      <div className="qrModal__backdrop" onClick={onClose} />
+      <div className="qrModal__sheet" role="document">
+        <button className="qrModal__close" aria-label="닫기" onClick={onClose}>×</button>
+        <div className="qrModal__body">
+          <img src={QR_IMG_SRC} alt="DeepVoice 설치 QR" className="qrModal__img"/>
+          <p className="qrModal__hint">휴대폰 카메라로 스캔해 설치 페이지로 이동하세요.</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ================= NAV ================= */
-function Nav(){
+function Nav({ onOpenQR }){
   const [open, setOpen] = useState(false);
   useEffect(()=>{
     const prev = document.body.style.overflow;
@@ -23,6 +48,8 @@ function Nav(){
     return () => { document.body.style.overflow = prev; };
   }, [open]);
   const close = () => setOpen(false);
+
+  const handleOpenQR = () => { onOpenQR?.(); close(); };
 
   return (
     <header className="nav" role="banner">
@@ -36,7 +63,8 @@ function Nav(){
           <a href="#showcase">Product</a>
           <a href="#features">Features</a>
           <a href="#try">Demo</a>
-          <a className="btnNav" href={DOWNLOAD_URL} target="_blank" rel="noreferrer">Get the app</a>
+          {/* 🔻 외부 링크 대신 모달 열기 */}
+          <button className="btnNav" type="button" onClick={handleOpenQR}>Get the app</button>
         </nav>
 
         <button
@@ -55,7 +83,8 @@ function Nav(){
           <a href="#showcase">Product</a>
           <a href="#features">Features</a>
           <a href="#try">Demo</a>
-          <a className="btnNav wide" href={DOWNLOAD_URL} target="_blank" rel="noreferrer">Get the app</a>
+          {/* 🔻 모바일 메뉴에서도 모달 열기 */}
+          <button className="btnNav wide" type="button" onClick={handleOpenQR}>Get the app</button>
         </nav>
       </div>
     </header>
@@ -64,10 +93,7 @@ function Nav(){
 
 /* =============== INTRO HERO =============== */
 function IntroHero(){
-  const qrRef = useRef(null);
-  useEffect(()=>{
-    if(qrRef.current) QRCode.toCanvas(qrRef.current, DOWNLOAD_URL, { width: 132 });
-  },[]);
+  // ⛔️ QRCode.toCanvas 제거, 정적 이미지로 교체
   const goNext = () => document.getElementById('showcase')?.scrollIntoView({ behavior:'smooth' });
   const bars = (n) => [...Array(n)].map((_,i)=><span key={i} style={{'--i': i}} />);
 
@@ -84,9 +110,11 @@ function IntroHero(){
           <div className="eqLine front">{bars(28)}</div>
         </div>
 
+        {/* ✅ QR 이미지로 교체 */}
         <div className="qrCenter qrHero">
-          <canvas ref={qrRef}/>
-          <a className="storeBadge" href={DOWNLOAD_URL} target="_blank" rel="noreferrer">앱 받기</a>
+          <img src={QR_IMG_SRC} alt="DeepVoice 설치 QR" className="qrImage"/>
+          {/* 🔻 하단 버튼 비활성화(링크 제거) */}
+          <button className="storeBadge" type="button" disabled aria-disabled="true">앱 받기</button>
         </div>
 
         <div className="moreDock">
@@ -299,9 +327,8 @@ function TrySection(){
   async function onAnalyze(){
     if(!file) return;
     setState('analyzing');
-    // ⬇️ 여기서 실제 분석 함수를 호출해 점수/라벨을 세팅하세요.
-    await new Promise(r=>setTimeout(r,800));           // demo delay
-    const s = Math.floor(5 + Math.random()*95);        // demo random
+    await new Promise(r=>setTimeout(r,800));
+    const s = Math.floor(5 + Math.random()*95);
     setScore(s);
     setHistory(h => [{time:new Date().toLocaleTimeString(), score:s}, ...h].slice(0,6));
     setState('done');
@@ -314,12 +341,9 @@ function TrySection(){
         <p className="muted small">* 실제 제품 모델과 다른 데모 UI입니다.</p>
       </div>
 
-      {/* 👉 간격만 살짝 타이트하게 */}
       <div className="tryGrid tryGrid--tight">
-        {/* PHONE MOCKUP */}
         <div className="tryPhoneCol reveal-up" style={{'--d':'80ms'}}>
           <div className="phoneFrame black demo" style={{ width:'min(360px, 92vw)', aspectRatio:'9 / 19.5' }}>
-            {/* 데모쪽 notch 숨김 (쇼케이스의 notch에는 영향 없음) */}
             <div className="demo-screen dv-screen">
               {state==='idle' && (
                 <div className="dv-home">
@@ -430,7 +454,7 @@ function TrySection(){
           </div>
         </div>
 
-        {/* 오른쪽 요약 카드(기존 디자인 유지) */}
+        {/* 오른쪽 요약 카드 */}
         <div className="resultPanel reveal-up" style={{'--d':'160ms'}}>
           <div className="panelCard big">
             <h3>탐지 결과</h3>
@@ -453,6 +477,8 @@ function TrySection(){
 }
 
 export default function App(){
+  const [qrOpen, setQrOpen] = useState(false);
+
   useEffect(()=>{
     document.body.classList.remove('in-showcase','after-showcase');
     const io = new IntersectionObserver((es)=>es.forEach(e=>{
@@ -467,7 +493,7 @@ export default function App(){
 
   return (
     <>
-      <Nav/>
+      <Nav onOpenQR={()=>setQrOpen(true)}/>
       <main className="page">
         <IntroHero/>
         <ShowcaseSticky/>
@@ -475,6 +501,8 @@ export default function App(){
         <TrySection/>
         <footer className="footer"><p>© {new Date().getFullYear()} DeepVoice Detection · All rights reserved.</p></footer>
       </main>
+      {/* ✅ 전역 QR 모달 */}
+      <QRModal open={qrOpen} onClose={()=>setQrOpen(false)} />
     </>
   );
 }
